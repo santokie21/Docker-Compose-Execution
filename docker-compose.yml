@@ -1,0 +1,27 @@
+services:
+  mysql:
+    container_name: my-mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: vasan
+      MYSQL_DATABASE: student
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mysql-network
+  spring-boot-app:
+    container_name: spring-demo
+    image: spring/demo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - mysql-network
+volumes:
+  mysql_data:
+networks:
+  mysql-network:
+    driver: bridge
